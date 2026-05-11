@@ -1,0 +1,100 @@
+/* diseño/biblioteca.css */
+
+body {
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Estilo de la barra superior (IGU) */
+.navbar-custom {
+    background-color: #1a252f;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid #f39c12;
+}
+
+.brand-section {
+    font-size: 1.6rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-section .label {
+    margin-right: 10px;
+    font-size: 0.9rem;
+    color: #bdc3c7;
+}
+
+.admin-badge {
+    background-color: #e74c3c;
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+/* Marco de la ventana principal y contenedor */
+.content-wrapper {
+    margin-top: 30px;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* Marco para la imagen empotrada */
+.image-frame {
+    border: 10px solid #ffffff;
+    outline: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    max-height: 400px;
+    margin-bottom: 20px;
+}
+
+.image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Botones de acción personalizados */
+.btn-action {
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    padding: 20px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-action:hover {
+    background-color: #34495e;
+    color: #f39c12;
+    transform: translateY(-3px);
+}
+
+.btn-action-exit {
+    background-color: #fdfdfd;
+    color: #c0392b;
+    border: 2px solid #c0392b;
+    padding: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-action-exit:hover {
+    background-color: #c0392b;
+    color: white;
+    transform: translateY(-3px);
+}
