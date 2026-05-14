@@ -96,9 +96,14 @@
                                 <tr>
                                     <th>Código</th>
                                     <th>Nombre</th>
-                                    <th>Dirección</th>
-                                    <th>Sexo</th>
                                     <th>Carrera</th>
+                                    <th>Correo</th>
+                                    <th>Dirección</th>
+                                    <th>Teléfono</th>
+                                    <th>Sexo</th>
+                                    <th>Fecha de Nacimiento</th>
+                                    
+                                    
                                 </tr>
                             </thead>
                             <tbody id="cuerpoTabla"></tbody>
@@ -146,7 +151,8 @@
     // --- 2. FUNCIÓN DE CONSULTA GENERAL (GET) ---
     async function consultarGeneral() {
         try {
-            // CORRECCIÓN: Cambiado de puerto 3000 a 4000
+            
+            
             const res = await fetch('http://localhost:4000/consultar-alumnos');
             const result = await res.json();
 
@@ -155,16 +161,20 @@
                 tabla.innerHTML = ""; 
                 
                 result.datos.forEach(a => {
-                    // Formateamos la fecha para que no salga con la hora rara de la base de datos
-                    const fecha = new Date(a.fecha_nac).toLocaleDateString('es-MX');
+                    // fechaformatocorto
+const fechaLimpia = new Date(a.fecha_nac).toLocaleDateString('es-MX');
 
                     tabla.innerHTML += `
                         <tr>
                             <td class="fw-bold">${a.codigo}</td>
                             <td>${a.nombre} ${a.apellido1} ${a.apellido2 || ''}</td>
-                            <td>${a.direccion}</td>
-                            <td class="text-center">${a.sexo}</td>
                             <td>${a.carrera}</td>
+                            <td>${a.correo}</td>
+                            <td>${a.direccion}</td>
+                            <td>${a.telefono}</td>
+                            <td class="text-center">${a.sexo}</td>
+                            <td>${fechaLimpia}</td>
+                            
                         </tr>`;
                 });
                 document.getElementById('seccionTabla').style.display = "block";
