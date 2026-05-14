@@ -1,12 +1,15 @@
 const express = require('express');
-const pool = require('./db');
+const pool = require('./db'); 
 const cors = require('cors'); 
+const path = require('path'); 
 const app = express();
 
 app.use(cors()); 
 app.use(express.json());
+// Servir archivos estáticos (asegúrate de que la ruta sea correcta según tu estructura)
+app.use(express.static(path.join(__dirname, '../')));
 
-// --- RUTA DE LOGIN ---
+// LOGIN
 app.post('/login', async (req, res) => {
     const { usuario, password } = req.body;
     try {
@@ -14,51 +17,39 @@ app.post('/login', async (req, res) => {
             'SELECT * FROM Usuario WHERE nombre_del_usuario = $1 AND pass = $2',
             [usuario, password]
         );
-
-        if (result.rows.length > 0) {
-            res.json({ success: true, mensaje: "¡Inicio de sesión correcto!" });
-        } else {
-            res.json({ success: false, mensaje: "Usuario o clave incorrecta" });
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, mensaje: "Error conectando a la base de datos" });
+        res.json({ success: result.rows.length > 0 });
+    } catch (err) { 
+        res.status(500).json({ success: false }); 
     }
 });
 
-// --- RUTA PASO 8 y 9: REGISTRAR EMPLEADO ---
+// REGISTRAR EMPLEADO (Paso de inserción con SQL empotrado)
 app.post('/registrar-empleado', async (req, res) => {
     const { codigo, nombre, apellido1, apellido2, direccion, telefono, sexo, fecha_nac, turno } = req.body;
     try {
-        const querySQL = `
-            INSERT INTO Empleado (codigo, nombre, apellido1, apellido2, direccion, telefono, sexo, fecha_nac, turno)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-        `;
-        await pool.query(querySQL, [codigo, nombre, apellido1, apellido2, direccion, telefono, sexo, fecha_nac, turno]);
-        
-        // CAMBIO AQUÍ: Usamos la variable 'nombre' para que el mensaje sea dinámico
-        res.json({ success: true, mensaje: `¡${nombre} ${apellido1} se registró con éxito!` });
-        
-    } catch (err) {
-        console.error("Error al insertar:", err.message);
-        res.status(500).json({ success: false, mensaje: "Error al registrar: " + err.message });
+        await pool.query(
+            'INSERT INTO Empleado (codigo, nombre, apellido1, apellido2, direccion, telefono, sexo, fecha_nac, turno) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)', 
+            [codigo, nombre, apellido1, apellido2, direccion, telefono, sexo, fecha_nac, turno]
+        );
+        res.json({ success: true, mensaje: "✅ Empleado guardado exitosamente" });
+    } catch (e) { 
+        res.status(500).json({ success: false, mensaje: "Error al registrar: " + e.message }); 
     }
 });
 
-// --- PASO 10: CONSULTA GENERAL (SQL EMPOTRADO SELECT) ---
+// CONSULTA GENERAL (Paso 10: SQL empotrado para mostrar en tabla)
 app.get('/consultar-empleados', async (req, res) => {
     try {
-        const querySQL = 'SELECT * FROM Empleado ORDER BY codigo ASC';
-        const result = await pool.query(querySQL);
-        
-        // Enviamos las filas encontradas al frontend
-        res.json({ success: true, datos: result.rows });
-    } catch (err) {
-        console.error("Error en consulta:", err.message);
-        res.status(500).json({ success: false, mensaje: "Error al obtener empleados" });
+        const result = await pool.query('SELECT * FROM Empleado ORDER BY codigo ASC');
+        res.json({ 
+            success: true, 
+            datos: result.rows 
+        });
+    } catch (e) { 
+        res.status(500).json({ success: false, mensaje: e.message }); 
     }
 });
 
-app.listen(3000, () => {
-    console.log("✅ Servidor encendido en http://localhost:3000");
+app.listen(4000, '0.0.0.0', () => {
+    console.log(`🚀 Servidor corriendo: http://localhost:4000`);
 });

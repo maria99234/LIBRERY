@@ -2,119 +2,175 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OptiSearch - Biblioteca</title>
+    
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://images.unsplash.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://images.unsplash.com https://cdn.jsdelivr.net; connect-src 'self' http://10.163.65.251:4000;">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="diseño/biblioteca.css">
+    
+    <style>
+        body { background-color: #f4f7f6; }
+        .navbar-custom {
+            background-color: #1a252f;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #f39c12;
+            margin-bottom: 2rem;
+        }
+        .main-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .hero-img-container {
+            border: 8px solid #f1f1f1;
+            border-radius: 8px;
+            overflow: hidden;
+            max-height: 250px;
+            margin-bottom: 30px;
+        }
+        .hero-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .list-group-item.active {
+            background-color: #f39c12;
+            border-color: #f39c12;
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="navbar-custom" style="background-color: #1a252f; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #f39c12;">
+    <nav class="navbar-custom">
         <div style="font-size: 1.6rem; font-weight: bold; display: flex; align-items: center; gap: 12px;">
             <i class="bi bi-book-half"></i> <span>OptiSearch</span>
         </div>
         <div>
-            <span style="margin-right: 10px; color: #bdc3c7;">Usuario logeado:</span>
+            <span class="d-none d-sm-inline" style="margin-right: 10px; color: #bdc3c7;">Usuario:</span>
             <span style="background-color: #e74c3c; padding: 6px 16px; border-radius: 4px; font-weight: 600; text-transform: uppercase; font-size: 0.85rem;">Administrador</span>
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="list-group shadow-sm">
-                    <div class="list-group-item bg-dark text-white fw-bold">EMPLEADOS</div>
-                    <button class="list-group-item list-group-item-action active">Registrar</button>
+    <div class="container">
+        <div class="row g-4">
+            <!-- MENÚ LATERAL -->
+            <div class="col-lg-3 col-md-4">
+                <div class="list-group shadow-sm sticky-top" style="top: 20px;">
+                    <div class="list-group-item bg-dark text-white fw-bold">GESTIÓN DE EMPLEADOS</div>
+                    <button class="list-group-item list-group-item-action active" onclick="location.reload()">Registrar</button>
                     <button class="list-group-item list-group-item-action">Consulta Individual</button>
                     <button class="list-group-item list-group-item-action" onclick="consultarGeneral()">Consulta General</button>
                     <button class="list-group-item list-group-item-action">Cambiar y Eliminar</button>
-                    <button class="list-group-item list-group-item-action" onclick="location.href='alumnos.html'">Alumnos</button>
+                    <button class="list-group-item list-group-item-action" onclick="location.href='alumnos.html'">Ir a Alumnos</button>
                 </div>
             </div>
 
-            <div class="col-md-9" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-                
-                <div style="border: 8px solid #f1f1f1; border-radius: 8px; overflow: hidden; max-height: 300px; margin-bottom: 30px;">
-                    <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1000" style="width: 100%; object-fit: cover;" alt="Biblioteca">
+            <!-- CONTENIDO PRINCIPAL -->
+            <div class="col-lg-9 col-md-8">
+                <div class="main-content">
+                    <div id="contenedorFormulario">
+                        <div class="hero-img-container">
+                            <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1000" alt="Biblioteca">
+                        </div>
+
+                        <h2 class="mb-4 text-primary border-bottom pb-2">Alta de Nuevo Empleado</h2>
+                        
+                        <form id="empleadoForm" class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Código</label>
+                                <input type="number" id="empCodigo" class="form-control" value="777" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Nombre</label>
+                                <input type="text" id="empNombre" class="form-control" placeholder="Nombre" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Apellido Paterno</label>
+                                <input type="text" id="empApellido1" class="form-control" placeholder="Apellido 1" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Apellido Materno</label>
+                                <input type="text" id="empApellido2" class="form-control" placeholder="Apellido 2">
+                            </div>
+                            
+                            <div class="col-md-8">
+                                <label class="form-label fw-bold">Dirección</label>
+                                <input type="text" id="empDireccion" class="form-control" placeholder="Calle y Número" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Teléfono</label>
+                                <input type="text" id="empTelefono" class="form-control" placeholder="Número" required>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Sexo</label>
+                                <select id="empSexo" class="form-select" required>
+                                    <option value="" disabled selected>Seleccione...</option>
+                                    <option value="F">Femenino</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="X">Otro</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Turno</label>
+                                <select id="empTurno" class="form-select">
+                                    <option value="Matutino">Matutino</option>
+                                    <option value="Vespertino">Vespertino</option>
+                                    <option value="Nocturno">Nocturno</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label fw-bold">Fecha de Nacimiento</label>
+                                <input type="date" id="empFechaNac" class="form-control" required>
+                            </div>
+                            
+                            <div class="col-12 mt-4 d-flex gap-2">
+                                <button type="submit" class="btn btn-primary px-4 fw-bold shadow-sm">
+                                    <i class="bi bi-person-plus-fill"></i> REGISTRAR
+                                </button>
+                                <button type="button" class="btn btn-outline-danger px-4 fw-bold" onclick="location.href='index.html'">
+                                    SALIR
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- SECCIÓN DE TABLA (PASO 10) -->
+                    <div id="seccionTabla" class="mt-5 pt-4 border-top" style="display:none;">
+                        <h3 class="text-primary mb-3"><i class="bi bi-table"></i> Lista de Empleados Registrados</h3>
+                        <div class="table-responsive shadow-sm rounded">
+                            <table class="table table-striped table-hover align-middle mb-0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nombre Completo</th>
+                                        <th>Dirección</th>
+                                        <th>Teléfono</th>
+                                        <th>Sexo</th>
+                                        <th>Fecha Nac.</th>
+                                        <th>Turno</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cuerpoTabla"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-
-                <h2 class="mb-4 text-primary">Alta de Nuevo Empleado</h2>
-                
-                <form id="empleadoForm" class="row g-3">
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold">Código</label>
-                        <input type="number" id="empCodigo" class="form-control" value="777" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold">Nombre</label>
-                        <input type="text" id="empNombre" class="form-control" placeholder="Ivonne" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold">Apellido Paterno</label>
-                        <input type="text" id="empApellido1" class="form-control" placeholder="Lopez" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold">Apellido Materno</label>
-                        <input type="text" id="empApellido2" class="form-control" placeholder="Orozco">
-                    </div>
-                    <div class="col-md-12">
-                        <label class="form-label fw-bold">Dirección</label>
-                        <input type="text" id="empDireccion" class="form-control" placeholder="Olivos 234" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold">Teléfono</label>
-                        <input type="text" id="empTelefono" class="form-control" placeholder="334466778899" required>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label fw-bold">Sexo</label>
-                        <input type="text" id="empSexo" class="form-control" placeholder="F" maxlength="1" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold">Turno</label>
-                        <select id="empTurno" class="form-select">
-                            <option value="Matutino">Matutino</option>
-                            <option value="Vespertino">Vespertino</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold">Fecha Nac.</label>
-                        <input type="date" id="empFechaNac" class="form-control" required>
-                    </div>
-                    <div class="col-12 mt-4">
-                        <button type="submit" class="btn btn-success px-5 fw-bold">REGISTRAR EMPLEADO</button>
-                        <button type="button" class="btn btn-secondary px-5" onclick="location.href='index.html'">SALIR</button>
-                    </div>
-                </form>
-
-
-                <div id="seccionTabla" class="mt-5" style="display:none;">
-    <h3 class="text-primary"><i class="bi bi-table"></i> Lista de Empleados Registrados</h3>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover mt-3">
-            <thead class="table-dark">
-                <tr>
-                    <th>Código</th>
-                    <th>Nombre Completo</th>
-                    <th>Dirección</th>
-                    <th>Teléfono</th>
-                    <th>Sexo</th>
-                    <th>Fecha de Nacimiento</th>
-                    <th>Turno</th>
-                </tr>
-            </thead>
-            <tbody id="cuerpoTabla">
-                </tbody>
-        </table>
-    </div>
-</div>
-
-
             </div>
         </div>
     </div>
 
     <script>
-        // --- FUNCIÓN PARA REGISTRAR ---
+        const API_URL = "";
+
+        // LÓGICA PARA REGISTRAR
         document.getElementById('empleadoForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const datos = {
@@ -130,116 +186,56 @@
             };
 
             try {
-                const res = await fetch('http://localhost:3000/registrar-empleado', {
+                const res = await fetch(`${API_URL}/registrar-empleado`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datos)
                 });
                 const result = await res.json();
                 alert(result.mensaje);
-                if(result.success) e.target.reset();
+                if(result.success) {
+                    e.target.reset();
+                    if(document.getElementById('seccionTabla').style.display === "block") consultarGeneral();
+                }
             } catch (err) {
-                alert("⚠️ Error de conexión");
+                alert("⚠️ Error de conexión con el servidor");
             }
         });
 
-        // --- NUEVA FUNCIÓN PARA CONSULTA GENERAL (Pégala aquí abajo) ---
-      const express = require('express');
-const pool = require('./db');
-const cors = require('cors'); 
-const app = express();
+        // LÓGICA PARA CONSULTA GENERAL (PASO 10)
+        async function consultarGeneral() {
+            try {
+                const res = await fetch(`${API_URL}/consultar-empleados`);
+                const result = await res.json();
 
-app.use(cors()); 
-app.use(express.json());
-
-// --- RUTA DE LOGIN ---
-app.post('/login', async (req, res) => {
-    const { usuario, password } = req.body;
-    try {
-        const result = await pool.query(
-            'SELECT * FROM Usuario WHERE nombre_del_usuario = $1 AND pass = $2',
-            [usuario, password]
-        );
-
-        if (result.rows.length > 0) {
-            res.json({ success: true, mensaje: "¡Inicio de sesión correcto!" });
-        } else {
-            res.json({ success: false, mensaje: "Usuario o clave incorrecta" });
+                if (result.success) {
+                    const tabla = document.getElementById('cuerpoTabla');
+                    const contenedor = document.getElementById('seccionTabla');
+                    tabla.innerHTML = "";
+                    
+                    result.datos.forEach(emp => {
+                        const fechaLimpia = new Date(emp.fecha_nac).toLocaleDateString('es-ES', {
+                            year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'UTC' 
+                        });
+                        tabla.innerHTML += `
+                            <tr>
+                                <td class="fw-bold text-primary">#${emp.codigo}</td>
+                                <td>${emp.nombre} ${emp.apellido1} ${emp.apellido2}</td>
+                                <td>${emp.direccion}</td>
+                                <td>${emp.telefono}</td>
+                                <td class="text-center"><span class="badge bg-secondary">${emp.sexo}</span></td>
+                                <td>${fechaLimpia}</td> 
+                                <td><span class="badge bg-info text-dark">${emp.turno}</span></td>
+                            </tr>`;
+                    });
+                    
+                    contenedor.style.display = "block";
+                    window.scrollTo({ top: contenedor.offsetTop - 20, behavior: 'smooth' });
+                }
+            } catch (err) {
+                alert("⚠️ Error al obtener los empleados.");
+            }
         }
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, mensaje: "Error conectando a la base de datos" });
-    }
-});
-
-// --- RUTA PASO 8 y 9: REGISTRAR EMPLEADO---
-app.post('/registrar-empleado', async (req, res) => {
-    const { codigo, nombre, apellido1, apellido2, direccion, telefono, sexo, fecha_nac, turno } = req.body;
-    try {
-        const querySQL = `
-            INSERT INTO Empleado (codigo, nombre, apellido1, apellido2, direccion, telefono, sexo, fecha_nac, turno)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-        `;
-        await pool.query(querySQL, [codigo, nombre, apellido1, apellido2, direccion, telefono, sexo, fecha_nac, turno]);
-        
-        // CAMBIO AQUÍ: Usamos la variable 'nombre' para que el mensaje sea dinámico
-        res.json({ success: true, mensaje: `¡${nombre} ${apellido1} se registró con éxito!` });
-        
-    } catch (err) {
-        console.error("Error al insertar:", err.message);
-        res.status(500).json({ success: false, mensaje: "Error al registrar: " + err.message });
-    }
-});
-
-// --- PASO 10: CONSULTA GENERAL (SQL EMPOTRADO SELECT) ---
-async function consultarGeneral() {
-    try {
-        const res = await fetch('http://localhost:3000/consultar-empleados');
-        const result = await res.json();
-
-        if (result.success) {
-            const tabla = document.getElementById('cuerpoTabla');
-            const contenedor = document.getElementById('seccionTabla');
-            
-            tabla.innerHTML = "";
-            
-            result.datos.forEach(emp => {
-                // --- FECHA modificada ---
-                // Convertimos el texto raro en un objeto de fecha y luego a formato local
-                const fechaLimpia = new Date(emp.fecha_nac).toLocaleDateString('es-ES', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    timeZone: 'UTC' 
-                });
-
-                tabla.innerHTML += `
-                    <tr>
-                        <td>${emp.codigo}</td>
-                        <td>${emp.nombre} ${emp.apellido1} ${emp.apellido2}</td>
-                        <td>${emp.direccion}</td>
-                        <td>${emp.telefono}</td>
-                        <td>${emp.sexo}</td>
-                        <td>${fechaLimpia}</td> 
-                        <td>${emp.turno}</td>
-                    </tr>
-                `;
-            });
-
-            contenedor.style.display = "block";
-            contenedor.scrollIntoView({ behavior: 'smooth' });
-        }
-    } catch (err) {
-        alert("Error al conectar con el servidor para la consulta.");
-    }
-}
-
-
-app.listen(3000, () => {
-    console.log("✅ Servidor encendido en http://localhost:3000");
-});
     </script>
-</body>
-</html>
 </body>
 </html>

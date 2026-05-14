@@ -1,11 +1,23 @@
 const { Pool } = require('pg');
+require('dotenv').config();
 
 const pool = new Pool({
-  user: 'administrador',      // <--- CAMBIA ESTO. Es el usuario que sale en tu imagen.
-  host: 'localhost',          // Esto está bien
-  database: 'libreria',       // Esto está bien
-  password: '12345',          // Tu contraseña de pgAdmin
-  port: 5432,                 // El puerto que se ve en tu imagen
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  // ❌ ELIMINAMOS LA PARTE DE SSL PORQUE TU SERVIDOR NO LA SOPORTA
+});
+
+// Prueba de conexión
+pool.connect((err, client, release) => {
+  if (err) {
+    console.error('❌ ERROR DE CONEXIÓN:', err.message);
+  } else {
+    console.log('✅ CONEXIÓN EXITOSA A LA BASE DE DATOS');
+    release();
+  }
 });
 
 module.exports = pool;

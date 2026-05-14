@@ -1,0 +1,9 @@
+# Archivos de configuración personal (Secretos)
+.env
+
+# Carpetas pesadas que no se suben
+node_modules/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
