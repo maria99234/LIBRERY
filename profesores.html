@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiSearch - PROFESORES</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="diseño/alumnos.css">
+</head>
+<body style="background-color: #f4f7f6;">
+
+    <nav style="background-color: #1a252f; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #f39c12;">
+        <div style="font-size: 1.6rem; font-weight: bold; display: flex; align-items: center; gap: 12px;">
+            <i class="bi bi-book-half"></i> <span>OptiSearch</span>
+        </div>
+        <div>
+            <span style="background-color: #e74c3c; padding: 6px 16px; border-radius: 4px; font-weight: 600; text-transform: uppercase; font-size: 0.85rem;">Administrador</span>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="list-group shadow-sm">
+                    <div class="list-group-item bg-dark text-white fw-bold text-center">PROFESORES</div>
+                    <button class="list-group-item list-group-item-action active"><i class="bi bi-person-plus"></i> Registrar</button>
+                    <button class="list-group-item list-group-item-action"><i class="bi bi-search"></i> Consulta Individual</button>
+                    <button class="list-group-item list-group-item-action" onclick="consultarGeneral()"><i class="bi bi-table"></i> Consulta General</button>
+                    <button class="list-group-item list-group-item-action"><i class="bi bi-pencil-square"></i> Cambiar y Eliminar</button>
+                </div>
+                <button class="btn btn-success w-100 mt-3 fw-bold" onclick="location.href='biblioteca.html'">REGRESAR</button>
+            </div>
+
+            <div class="col-md-9" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                
+                <div class="imagen-fondo" style="margin-bottom: 20px; border-radius: 10px;"></div>
+
+                <h2 class="mb-4 text-primary">Alta de Nuevo Profesor</h2>
+
+                <form id="profesorForm" class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Código</label>
+                        <input type="text" id="codigo" class="form-control" placeholder="Ej: A-100" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Nombre</label>
+                        <input type="text" id="nombre" class="form-control" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Apellido Paterno</label>
+                        <input type="text" id="apellido1" class="form-control" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Apellido Materno</label>
+                        <input type="text" id="apellido2" class="form-control">
+                    </div>
+
+                    <div class="col-md-8">
+                        <label class="form-label fw-bold">Dirección</label>
+                        <input type="text" id="direccion" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Teléfono</label>
+                        <input type="text" id="telefono" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">Sexo (M/F)</label>
+                        <input type="text" id="sexo" class="form-control" maxlength="1" placeholder="F" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Fecha de Nacimiento</label>
+                        <input type="date" id="fecha_nac" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Correo Electrónico</label>
+                        <input type="email" id="correo" class="form-control" placeholder="ejemplo@correo.com" required>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">Departamento</label>
+                        <input type="text" id="departamento" class="form-control" placeholder="Ingeniería en..." required>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <button type="submit" class="btn btn-primary px-5 fw-bold">GUARDAR EN BASE DE DATOS</button>
+                        <button type="button" class="btn btn-danger px-4 ms-2" onclick="location.href='index.html'">SALIR</button>
+                    </div>
+                </form>
+
+                <div id="seccionTabla" class="mt-5" style="display:none;">
+                    <h3 class="text-primary">Registros Actuales</h3>
+                    <div class="table-responsive">
+                        <table class="table table-hover border mt-3">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Departamento</th>
+                                    <th>Correo</th>
+                                    <th>Dirección</th>
+                                    <th>Teléfono</th>
+                                    <th>Sexo</th>
+                                    <th>Fecha de Nacimiento</th>
+                                    
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTabla"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // --- 1. FUNCIÓN DE REGISTRO (POST) ---
+    document.getElementById('profesorForm').addEventListener('submit', async (e) => {
+        e.preventDefault(); 
+
+        const profesor = {
+            codigo: document.getElementById('codigo').value,
+            nombre: document.getElementById('nombre').value,
+            apellido1: document.getElementById('apellido1').value,
+            apellido2: document.getElementById('apellido2').value,
+            direccion: document.getElementById('direccion').value,
+            telefono: document.getElementById('telefono').value,
+            sexo: document.getElementById('sexo').value,
+            fecha_nac: document.getElementById('fecha_nac').value,
+            correo: document.getElementById('correo').value,
+            departamento: document.getElementById('departamento').value
+        };
+
+        try {
+            // CORRECCIÓN: Cambiado de puerto 3000 a 4000 para que coincida con tu servidor
+            const res = await fetch('http://localhost:4000/registrar-profesor', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(profesor)
+            });
+            const result = await res.json();
+            alert(result.mensaje); 
+            if(result.success) e.target.reset(); 
+        } catch (err) {
+            // Este error sale si el servidor de Node no está encendido
+            alert("⚠️ Error: El servidor no responde. Verifica que Node esté corriendo en el puerto 4000.");
+        }
+    });
+
+    // --- 2. FUNCIÓN DE CONSULTA GENERAL (GET) ---
+    async function consultarGeneral() {
+        try {
+            
+            
+            const res = await fetch('http://localhost:4000/consultar-profesores');
+            const result = await res.json();
+
+            if (result.success) {
+                const tabla = document.getElementById('cuerpoTabla');
+                tabla.innerHTML = ""; 
+                
+                result.datos.forEach(a => {
+                    // fechaformatocorto
+const fechaLimpia = new Date(a.fecha_nac).toLocaleDateString('es-MX');
+
+                    tabla.innerHTML += `
+                        <tr>
+                            <td class="fw-bold">${a.codigo}</td>
+                            <td>${a.nombre} ${a.apellido1} ${a.apellido2 || ''}</td>
+                            <td>${a.carrera}</td>
+                            <td>${a.correo}</td>
+                            <td>${a.direccion}</td>
+                            <td>${a.telefono}</td>
+                            <td class="text-center">${a.sexo}</td>
+                            <td>${fechaLimpia}</td>
+                            
+                        </tr>`;
+                });
+                document.getElementById('seccionTabla').style.display = "block";
+            }
+        } catch (err) {
+            alert("Error al conectar con la base de datos para la consulta.");
+        }
+    }
+</script>
+</body>
+</html>
