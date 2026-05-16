@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OptiSearch - PROFESORES</title>
+    <title>OptiSearch - Libros</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="diseño/alumnos.css">
@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="list-group shadow-sm">
-                    <div class="list-group-item bg-dark text-white fw-bold text-center">PROFESORES</div>
+                    <div class="list-group-item bg-dark text-white fw-bold text-center">LIBROS</div>
                     <button class="list-group-item list-group-item-action active"><i class="bi bi-person-plus"></i> Registrar</button>
                     <button class="list-group-item list-group-item-action"><i class="bi bi-search"></i> Consulta Individual</button>
                     <button class="list-group-item list-group-item-action" onclick="consultarGeneral()"><i class="bi bi-table"></i> Consulta General</button>
@@ -36,50 +36,34 @@
                 
                 <div class="imagen-fondo" style="margin-bottom: 20px; border-radius: 10px;"></div>
 
-                <h2 class="mb-4 text-primary">Alta de Nuevo Profesor</h2>
+                <h2 class="mb-4 text-primary">Alta de Nuevo Libro</h2>
 
-                <form id="profesorForm" class="row g-3">
+                <form id="alumnoForm" class="row g-3">
                     <div class="col-md-3">
-                        <label class="form-label fw-bold">Código</label>
-                        <input type="text" id="codigo" class="form-control" placeholder="Ej: A-100" required>
+                        <label class="form-label fw-bold">ISBN</label>
+                        <input type="text" id="isbn" class="form-control" placeholder="Ej: A-100" required>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label fw-bold">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" required>
+                        <label class="form-label fw-bold">Título</label>
+                        <input type="text" id="titulo" class="form-control" required>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label fw-bold">Apellido Paterno</label>
-                        <input type="text" id="apellido1" class="form-control" required>
+                        <label class="form-label fw-bold">Autores</label>
+                        <input type="text" id="autores" class="form-control" required>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label fw-bold">Apellido Materno</label>
-                        <input type="text" id="apellido2" class="form-control">
+                        <label class="form-label fw-bold">Editorial</label>
+                        <input type="text" id="editorial" class="form-control">
                     </div>
 
-                    <div class="col-md-8">
-                        <label class="form-label fw-bold">Dirección</label>
-                        <input type="text" id="direccion" class="form-control" required>
-                    </div>
                     <div class="col-md-4">
-                        <label class="form-label fw-bold">Teléfono</label>
-                        <input type="text" id="telefono" class="form-control" required>
+                        <label class="form-label fw-bold">AÑO DE PUBLICACIÓN</label>
+                        <input type="text" id="anio_public" class="form-control" placeholder="Ej: 2026" required>
                     </div>
-
-                    <div class="col-md-2">
-                        <label class="form-label fw-bold">Sexo (M/F)</label>
-                        <input type="text" id="sexo" class="form-control" maxlength="1" placeholder="F" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold">Fecha de Nacimiento</label>
-                        <input type="date" id="fecha_nac" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold">Correo Electrónico</label>
-                        <input type="email" id="correo" class="form-control" placeholder="ejemplo@correo.com" required>
-                    </div>
+                    
                     <div class="col-md-12">
-                        <label class="form-label fw-bold">Departamento</label>
-                        <input type="text" id="departamento" class="form-control" placeholder="Ingeniería en..." required>
+                        <label class="form-label fw-bold">NUMERO DE EJEMPLARES</label>
+                        <input type="text" id="num_ejemplar" class="form-control" placeholder="Ej: 5" required>
                     </div>
 
                     <div class="col-12 mt-4">
@@ -94,16 +78,12 @@
                         <table class="table table-hover border mt-3">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>Código</th>
-                                    <th>Nombre</th>
-                                    <th>Departamento</th>
-                                    <th>Correo</th>
-                                    <th>Dirección</th>
-                                    <th>Teléfono</th>
-                                    <th>Sexo</th>
-                                    <th>Fecha de Nacimiento</th>
-                                    
-                                    
+                                    <th>ISBN</th>
+                                    <th>Título</th>
+                                    <th>Autores</th>
+                                    <th>Editorial</th>
+                                    <th>Año de Publicación</th>
+                                    <th>Número de Ejemplares</th>
                                 </tr>
                             </thead>
                             <tbody id="cuerpoTabla"></tbody>
@@ -116,34 +96,28 @@
 
     <script>
     // --- 1. FUNCIÓN DE REGISTRO (POST) ---
-    document.getElementById('profesorForm').addEventListener('submit', async (e) => {
+    document.getElementById('alumnoForm').addEventListener('submit', async (e) => {
         e.preventDefault(); 
 
-        const profesor = {
-            codigo: document.getElementById('codigo').value,
-            nombre: document.getElementById('nombre').value,
-            apellido1: document.getElementById('apellido1').value,
-            apellido2: document.getElementById('apellido2').value,
-            direccion: document.getElementById('direccion').value,
-            telefono: document.getElementById('telefono').value,
-            sexo: document.getElementById('sexo').value,
-            fecha_nac: document.getElementById('fecha_nac').value,
-            correo: document.getElementById('correo').value,
-            departamento: document.getElementById('departamento').value
+        const libro = {
+            isbn: document.getElementById('isbn').value,
+            titulo: document.getElementById('titulo').value,
+            autores: document.getElementById('autores').value,
+            editorial: document.getElementById('editorial').value,
+            anio_public: document.getElementById('anio_public').value,
+            num_ejemplares: document.getElementById('num_ejemplar').value
         };
 
         try {
-            
-            const res = await fetch('http://localhost:4000/registrar-profesor', {
+            const res = await fetch('http://localhost:4000/registrar-libro', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(profesor)
+                body: JSON.stringify(libro)
             });
             const result = await res.json();
             alert(result.mensaje); 
             if(result.success) e.target.reset(); 
         } catch (err) {
-            // Este error sale si el servidor de Node no está encendido
             alert("⚠️ Error: El servidor no responde. Verifica que Node esté corriendo en el puerto 4000.");
         }
     });
@@ -151,9 +125,7 @@
     // --- 2. FUNCIÓN DE CONSULTA GENERAL (GET) ---
     async function consultarGeneral() {
         try {
-            
-            
-            const res = await fetch('http://localhost:4000/consultar-profesores');
+            const res = await fetch('http://localhost:4000/consultar-libro');
             const result = await res.json();
 
             if (result.success) {
@@ -161,23 +133,23 @@
                 tabla.innerHTML = ""; 
                 
                 result.datos.forEach(a => {
-                    // fechaformatocorto
-const fechaLimpia = new Date(a.fecha_nac).toLocaleDateString('es-MX');
+                    // Evita fallos por variaciones de nombres de columnas que envíe PostgreSQL
+                    const ejemplares = a.num_ejemplar || a.num_ejemplares || a.num_exemplar || '0';
 
                     tabla.innerHTML += `
                         <tr>
-                            <td class="fw-bold">${a.codigo}</td>
-                            <td>${a.nombre} ${a.apellido1} ${a.apellido2 || ''}</td>
-                            <td>${a.carrera}</td>
-                            <td>${a.correo}</td>
-                            <td>${a.direccion}</td>
-                            <td>${a.telefono}</td>
-                            <td class="text-center">${a.sexo}</td>
-                            <td>${fechaLimpia}</td>
-                            
+                            <td class="fw-bold">${a.isbn || ''}</td>
+                            <td>${a.titulo || ''}</td>
+                            <td>${a.autores || ''}</td>
+                            <td>${a.editorial || ''}</td>
+                            <td>${a.anio_public || ''}</td>
+                            <td>${ejemplares}</td>
                         </tr>`;
                 });
+                
                 document.getElementById('seccionTabla').style.display = "block";
+            } else {
+                alert("No se pudieron obtener los datos de la consulta.");
             }
         } catch (err) {
             alert("Error al conectar con la base de datos para la consulta.");
