@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prestamos</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+     <link rel="stylesheet" href="diseño/Prestamos.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="diseño/alumnos.css" />
+  </head>
+<body style="background-color: #f4f7f6;">
+
+    <nav style="background-color: #1a252f; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #f39c12;">
+        <div style="font-size: 1.6rem; font-weight: bold; display: flex; align-items: center; gap: 12px;">
+            <i class="bi bi-book-half"></i> <span>OptiSearch</span>
+        </div>
+        <div>
+            <span style="background-color: #e74c3c; padding: 6px 16px; border-radius: 4px; font-weight: 600; text-transform: uppercase; font-size: 0.85rem;">Administrador</span>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="list-group shadow-sm">
+                    <div class="list-group-item bg-dark text-white fw-bold text-center">PRESTAMOS</div>
+                    <button class="list-group-item list-group-item-action active"><i class="bi bi-person-plus"></i> Registrar</button>
+                    <button class="list-group-item list-group-item-action"><i class="bi bi-search"></i> Consulta Individual</button>
+                    <button class="list-group-item list-group-item-action" onclick="consultarGeneral()"><i class="bi bi-table"></i> Consulta General</button>
+                    <button class="list-group-item list-group-item-action"><i class="bi bi-pencil-square"></i>Devolver prestamo</button>
+                </div>
+                <button class="btn btn-success w-100 mt-3 fw-bold" onclick="location.href='biblioteca.html'">REGRESAR</button>
+            </div>
+            <div class="col-md-9" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+ <div class="imagen_Prestamos" style="margin-bottom: 20px; border-radius: 10px;"></div>
+ </div>
+           
+              
+
+</body>
+ 
+</html>
