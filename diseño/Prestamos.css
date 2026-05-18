@@ -1,0 +1,9 @@
+.imagen_Prestamos {
+    position: relative;
+  height: 300px;
+    width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+  url("../lib-imagenes/librarytours.jpg");
+  background-size: cover;
+  background-position: center;
+}
