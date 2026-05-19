@@ -135,7 +135,7 @@ app.post('/registrar-libro', async (req, res) => {
     }
 });
 
-// 🚨 ¡AQUÍ ESTÁ LA NUEVA RUTA QUE FALTABA PARA VER LA TABLA! 🚨
+//  ¡AQUÍ ESTÁ LA NUEVA RUTA QUE FALTABA PARA VER LA TABLA! 
 app.get('/consultar-libro', async (req, res) => {
     try {
         const resultado = await pool.query('SELECT * FROM Libro ORDER BY titulo ASC');
