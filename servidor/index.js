@@ -9,11 +9,18 @@ app.use(express.json());
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname, '../')));
 
+<<<<<<< HEAD
 // LOGIN
 // LOGIN CORREGIDO
+=======
+// LOGIN CORREGIDO CON TUS VARIABLES
+>>>>>>> 2e5bddd514fbf47420aa41b2bfcc50187babb1ab
 app.post('/login', async (req, res) => {
+    // Recibe las variables que manda el frontend
     const { usuario, password } = req.body;
+
     try {
+<<<<<<< HEAD
         const result = await pool.query(
             'SELECT * FROM "Usuario" WHERE nombre_del_usuario = $1 AND pass = $2',
             [usuario, password]
@@ -30,6 +37,52 @@ app.post('/login', async (req, res) => {
         // Si hay un error con Postgres, esto te lo mostrará en la terminal
         console.error("❌ Error real en la consulta de Login:", err);
         res.status(500).json({ success: false, mensaje: "Error interno del servidor." }); 
+=======
+        // 1. Busca usando tu columna exacta: 'nombre_del_usuario'
+        const result = await pool.query('SELECT * FROM Usuario WHERE nombre_del_usuario = $1', [usuario]);
+        const userFound = result.rows[0];
+
+        if (!userFound) {
+            return res.json({ 
+                success: false, 
+                mensaje: "Usuario o contraseña incorrectos." 
+            });
+        }
+        
+        // 2. Compara usando tu columna exacta: 'pass'
+        if (userFound.pass === password) { 
+            
+            let paginaDestino = "biblioteca.html"; // Página por defecto
+
+            // Asignación de tus páginas para redireccionar según corresponda
+            if (userFound.nombre_del_usuario === 'Administrador') {
+                paginaDestino = "biblioteca.html";
+            } else if (userFound.nombre_del_usuario === 'Ivonne') {
+                paginaDestino = "empleados.html";
+            } else if (userFound.nombre_del_usuario === 'Blas') {
+                paginaDestino = "empleados.html";
+            }
+
+            return res.json({
+                success: true,
+                mensaje: `¡Bienvenido(a) ${userFound.nombre_del_usuario}!`,
+                redireccion: paginaDestino
+            });
+
+        } else {
+            return res.json({ 
+                success: false, 
+                mensaje: "Usuario o contraseña incorrectos." 
+            });
+        }
+
+    } catch (error) {
+        console.error("Error en el login:", error);
+        return res.status(500).json({ 
+            success: false, 
+            mensaje: "Error interno del servidor." 
+        });
+>>>>>>> 2e5bddd514fbf47420aa41b2bfcc50187babb1ab
     }
 });
 
@@ -135,7 +188,7 @@ app.post('/registrar-libro', async (req, res) => {
     }
 });
 
-//  ¡AQUÍ ESTÁ LA NUEVA RUTA QUE FALTABA PARA VER LA TABLA! 
+// NUEVA RUTA PARA VER LA TABLA
 app.get('/consultar-libro', async (req, res) => {
     try {
         const resultado = await pool.query('SELECT * FROM Libro ORDER BY titulo ASC');
