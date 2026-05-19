@@ -10,16 +10,26 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../')));
 
 // LOGIN
+// LOGIN CORREGIDO
 app.post('/login', async (req, res) => {
     const { usuario, password } = req.body;
     try {
         const result = await pool.query(
-            'SELECT * FROM Usuario WHERE nombre_del_usuario = $1 AND pass = $2',
+            'SELECT * FROM "Usuario" WHERE nombre_del_usuario = $1 AND pass = $2',
             [usuario, password]
         );
-        res.json({ success: result.rows.length > 0 });
+        
+        const esValido = result.rows.length > 0;
+
+        // Enviamos success y mensaje para que tu HTML funcione perfecto
+        res.json({ 
+            success: esValido,
+            mensaje: esValido ? "¡Inicio de sesión exitoso!" : "Usuario o contraseña incorrectos."
+        });
     } catch (err) { 
-        res.status(500).json({ success: false }); 
+        // Si hay un error con Postgres, esto te lo mostrará en la terminal
+        console.error("❌ Error real en la consulta de Login:", err);
+        res.status(500).json({ success: false, mensaje: "Error interno del servidor." }); 
     }
 });
 
